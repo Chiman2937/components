@@ -58,3 +58,35 @@
   }
   ```
 </details>
+
+
+<details>
+  <summary><h3>Select</h3></summary>
+
+  ```tsx
+  const Home = () => {
+    const [selectedValue, setSelectedValue] = useState('created');
+  
+    const listMap = [
+      { value: 'created', children: '최신순' },
+      { value: 'favorite', children: '좋아요순' },
+      { value: 'suggest', children: '추천순' },
+    ];
+  
+    return (
+      <Select value={selectedValue} onValueChange={setSelectedValue}>
+        <Select.trigger>
+          <Select.value />
+        </Select.trigger>
+        <Select.list>
+          {listMap.map(({ value, children }) => (
+            <Select.item key={value} value={value}>
+              {children}
+            </Select.item>
+          ))}
+        </Select.list>
+      </Select>
+    );
+  };
+  ```
+</details>
