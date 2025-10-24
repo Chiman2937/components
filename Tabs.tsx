@@ -41,12 +41,12 @@ const TabsList = ({ children, className }: ListProps) => {
       event.preventDefault();
       const nextIndex = (currentIndex + 1) % tabs.length;
       tabs[nextIndex]?.focus();
-      tabs[nextIndex]?.click();
+      // tabs[nextIndex]?.click();
     } else if (event.key === 'ArrowLeft') {
       event.preventDefault();
       const nextIndex = (currentIndex - 1 + tabs.length) % tabs.length;
       tabs[nextIndex]?.focus();
-      tabs[nextIndex]?.click();
+      // tabs[nextIndex]?.click();
     }
   };
 
