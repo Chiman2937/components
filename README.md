@@ -27,3 +27,34 @@
   ```
 </details>
 
+<details>
+  <summary><h3>Tabs</h3></summary>
+
+  ```tsx
+  const Home = () => {
+    const [selectedValue, setSelectedValue] = useState('created');
+
+    const listMap = [
+      { value: 'created', children: '등록한 상품' },
+      { value: 'favorite', children: '찜한 상품' },
+      { value: 'reviewed', children: '리뷰 남긴 상품' },
+    ];
+  
+    return (
+      <Tabs value={selectedValue} onValueChange={setSelectedValue}>
+        <Tabs.list className='flex w-fit flex-row gap-5 border-1'>
+          {listMap.map(({ value, children }) => (
+            <Tabs.item
+              key={value}
+              className='w-30 border-black data-[state=active]:border-b-1'
+              value={value}
+            >
+              {children}
+            </Tabs.item>
+          ))}
+        </Tabs.list>
+      </Tabs>
+    );
+  }
+  ```
+</details>
