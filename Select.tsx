@@ -156,10 +156,13 @@ const SelectList = ({ children, className }: ListProps) => {
   useEffect(() => {
     if (!isOpen) return;
 
-    const items = listRef.current?.querySelectorAll('[role="menuitem"]') as NodeListOf<HTMLElement>;
+    const items = listRef.current?.querySelectorAll('[role="option"]') as NodeListOf<HTMLElement>;
+    const currentItem = listRef.current?.querySelector(
+      '[role="option"][data-state="active"',
+    ) as HTMLElement;
     if (!items || items.length === 0) return;
 
-    items[0]?.focus();
+    currentItem?.focus();
 
     const handleKeyDown = (event: KeyboardEvent) => {
       const currentIndex = Array.from(items).findIndex((item) => item === document.activeElement);
@@ -198,7 +201,7 @@ const SelectList = ({ children, className }: ListProps) => {
       ref={listRef}
       className={className}
       style={{ display: isOpen ? 'block' : 'none' }}
-      role='menu'
+      role='listbox'
     >
       {children}
     </ul>
@@ -240,8 +243,9 @@ const SelectItem = ({ children, className, value }: ItemProps) => {
     <li role='none'>
       <button
         className={className}
+        aria-selected={selected}
         data-state={selected ? 'active' : 'inactive'}
-        role='menuitem'
+        role='option'
         tabIndex={-1}
         type='button'
         onClick={handleClick}
