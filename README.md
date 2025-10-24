@@ -90,3 +90,29 @@
   };
   ```
 </details>
+
+<details>
+  <summary><h3>Modal</h3></summary>
+
+  ```tsx
+  const Modal = () => {
+    return (
+      <ModalContent className='flex h-100 w-100 flex-col items-center justify-center bg-white'>
+        <ModalTitle className='sr-only'>다이얼로그 제목입니다</ModalTitle>
+        <ModalDescription className='sr-only'>다이얼로그 설명입니다</ModalDescription>
+        <input />
+        <input />
+        <input />
+        <ModalCloseButton>닫기</ModalCloseButton>
+      </ModalContent>
+    );
+  };
+  
+  const Home = () => {
+    const { open } = useModal();
+  
+    return <button onClick={() => open(<Modal />)}>모달 열기</button>;
+  };
+
+  ```
+</details>
