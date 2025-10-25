@@ -1,8 +1,8 @@
 # components
 
-## 사용 예시
+## ui
 <details>
-  <summary><h3>Dropdown</h3></summary>
+  <summary><h4>Dropdown</h4></summary>
 
   ```tsx
   const Home = () => {
@@ -29,7 +29,7 @@
 </details>
 
 <details>
-  <summary><h3>Tabs</h3></summary>
+  <summary><h4>Tabs</h4></summary>
 
   ```tsx
   const Home = () => {
@@ -62,7 +62,7 @@
 
 
 <details>
-  <summary><h3>Select</h3></summary>
+  <summary><h4>Select</h4></summary>
 
   ```tsx
   const Home = () => {
@@ -93,7 +93,7 @@
 </details>
 
 <details>
-  <summary><h3>Modal</h3></summary>
+  <summary><h4>Modal</h4></summary>
 
   ```tsx
   const Modal = () => {
