@@ -1,6 +1,6 @@
 ## components
 <details>
-  <summary><h4>FormField</h4></summary>
+  <summary><h4>FormField(register)</h4></summary>
 
 ```tsx
 'use client';
