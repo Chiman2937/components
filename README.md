@@ -1,6 +1,6 @@
 ## components
 <details>
-  <summary><h4>FormField(register)</h4></summary>
+  <summary><h4>FormField</h4></summary>
 
 ```tsx
 'use client';
@@ -15,13 +15,16 @@ import {
   FormCheckboxGroup,
   FormCheckboxItem,
 } from '@/components/FormField/FormCheckbox';
+import { FormControl } from '@/components/FormField/FormControl';
+import FormDatePicker from '@/components/FormField/FormDatePicker';
 import FormField from '@/components/FormField/FormField';
 import FormHint from '@/components/FormField/FormHint';
+import FormImageUpload from '@/components/FormField/FormImageUpload';
 import FormInput from '@/components/FormField/FormInput';
 import FormLabel from '@/components/FormField/FormLabel';
 import { FormRadio, FormRadioGroup } from '@/components/FormField/FormRadio';
+import FormSelect from '@/components/FormField/FormSelect';
 import FormTextArea from '@/components/FormField/FormTextArea';
-
 const schema = z.object({
   email: z.email('올바른 이메일 형식을 입력하세요.'),
   password: z.string().min(1, '한글자 이상 입력 필요').max(10, '열글자 이하 입력 필요'),
@@ -31,6 +34,12 @@ const schema = z.object({
   agreement: z.boolean().refine((val) => val === true, {
     message: '동의가 필요합니다',
   }),
+  images: z
+    .record(z.string(), z.instanceof(File).nullable())
+    .refine((images) => Object.keys(images).length >= 1, {
+      message: '최소 1개 이상의 이미지를 업로드해주세요',
+    }),
+  repeat: z.string().min(1, '반복 횟수를 설정해주세요'),
 });
 
 const Home = () => {
@@ -44,6 +53,8 @@ const Home = () => {
       description: '',
       interests: [],
       agreement: false,
+      images: {},
+      repeat: '',
     },
   });
 
@@ -52,48 +63,105 @@ const Home = () => {
   };
 
   return (
-    <FormProvider {...methods}>
-      <form onSubmit={methods.handleSubmit(onSubmit)}>
-        <FormField name='email'>
-          <FormLabel required>이메일</FormLabel>
-          <FormInput placeholder='email@example.com' type='email' />
-          <FormHint />
-        </FormField>
-        <FormField name='password'>
-          <FormLabel required>비밀번호</FormLabel>
-          <FormInput placeholder='password' type='password' />
-          <FormHint />
-        </FormField>
-        <FormField name='plan'>
-          <FormLabel required>요금제 선택</FormLabel>
-          <FormRadioGroup>
-            <FormRadio value='basic'>베이직</FormRadio>
-            <FormRadio value='pro'>프로</FormRadio>
-          </FormRadioGroup>
-          <FormHint />
-        </FormField>
-        <FormField name='description'>
-          <FormLabel required>자기소개</FormLabel>
-          <FormTextArea maxLength={300} placeholder='입력해주세요' showCount />
-          <FormHint />
-        </FormField>
-        <FormField name='interests'>
-          <FormLabel>관심사</FormLabel>
-          <FormCheckboxGroup>
-            <FormCheckboxItem value='tech'>기술</FormCheckboxItem>
-            <FormCheckboxItem value='design'>디자인</FormCheckboxItem>
-            <FormCheckboxItem value='business'>비즈니스</FormCheckboxItem>
-          </FormCheckboxGroup>
-          <FormHint />
-        </FormField>
-        <FormField name='agreement'>
-          <FormLabel required>약관 동의</FormLabel>
-          <FormCheckbox>이용 약관에 동의합니다</FormCheckbox>
-          <FormHint />
-        </FormField>
-        <button>출력</button>
-      </form>
-    </FormProvider>
+    <div className='ml-100'>
+      <FormProvider {...methods}>
+        <form onSubmit={methods.handleSubmit(onSubmit)}>
+
+          <FormField name='email'>
+            <FormLabel required>이메일</FormLabel>
+            <FormInput placeholder='email@example.com' type='email' />
+            <FormHint />
+          </FormField>
+
+          <FormField name='password'>
+            <FormLabel required>비밀번호</FormLabel>
+            <FormInput placeholder='password' type='password' />
+            <FormHint />
+          </FormField>
+
+          <FormField name='plan'>
+            <FormLabel required>요금제 선택</FormLabel>
+            <FormRadioGroup>
+              <FormRadio value='basic'>베이직</FormRadio>
+              <FormRadio value='pro'>프로</FormRadio>
+            </FormRadioGroup>
+            <FormHint />
+          </FormField>
+
+          <FormField name='description'>
+            <FormLabel required>자기소개</FormLabel>
+            <FormTextArea maxLength={300} placeholder='입력해주세요' showCount />
+            <FormHint />
+          </FormField>
+
+          <FormField name='interests'>
+            <FormLabel>관심사</FormLabel>
+            <FormCheckboxGroup>
+              <FormCheckboxItem value='tech'>기술</FormCheckboxItem>
+              <FormCheckboxItem value='design'>디자인</FormCheckboxItem>
+              <FormCheckboxItem value='business'>비즈니스</FormCheckboxItem>
+            </FormCheckboxGroup>
+            <FormHint />
+          </FormField>
+
+          <FormField name='agreement'>
+            <FormLabel required>약관 동의</FormLabel>
+            <FormCheckbox>이용 약관에 동의합니다</FormCheckbox>
+            <FormHint />
+          </FormField>
+
+          <FormField name='images'>
+            <FormLabel required>상품 이미지</FormLabel>
+            <FormControl>
+              {(field) => (
+                <FormImageUpload
+                  maxFiles={5}
+                  mode='append'
+                  multiple
+                  value={field.value}
+                  onChange={field.onChange}
+                />
+              )}
+            </FormControl>
+            <FormHint />
+          </FormField>
+
+          <FormField name='repeat'>
+            <FormLabel required>반복</FormLabel>
+            <FormControl>
+              {(field) => (
+                <FormSelect
+                  listMap={[
+                    { value: 'never', children: '반복 없음' },
+                    { value: 'once', children: '한번' },
+                    { value: 'infinite', children: '무한' },
+                  ]}
+                  placeholder='값을 선택해주세요'
+                  value={field.value}
+                  onValueChange={field.onChange}
+                />
+              )}
+            </FormControl>
+            <FormHint />
+          </FormField>
+
+          <FormField name='date'>
+            <FormLabel required>날짜 선택</FormLabel>
+            <FormControl>
+              {(field) => (
+                <FormDatePicker value={field.value} onChange={field.onChange}>
+                  <FormDatePicker.Trigger placeholder='날짜를 입력해주세요' />
+                  <FormDatePicker.Content />
+                </FormDatePicker>
+              )}
+            </FormControl>
+            <FormHint />
+          </FormField>
+          
+          <button>출력</button>
+        </form>
+      </FormProvider>
+    </div>
   );
 };
 
