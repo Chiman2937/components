@@ -40,6 +40,7 @@ const schema = z.object({
       message: '최소 1개 이상의 이미지를 업로드해주세요',
     }),
   repeat: z.string().min(1, '반복 횟수를 설정해주세요'),
+  date: z.date("날짜를 선택해주세요")
 });
 
 const Home = () => {
@@ -55,6 +56,7 @@ const Home = () => {
       agreement: false,
       images: {},
       repeat: '',
+      date: undefined
     },
   });
 
@@ -157,7 +159,7 @@ const Home = () => {
             </FormControl>
             <FormHint />
           </FormField>
-          
+
           <button>출력</button>
         </form>
       </FormProvider>
